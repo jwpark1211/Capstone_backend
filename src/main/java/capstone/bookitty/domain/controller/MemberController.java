@@ -2,6 +2,7 @@ package capstone.bookitty.domain.controller;
 
 import capstone.bookitty.domain.dto.ResponseType.BasicResponse;
 import capstone.bookitty.domain.dto.ResponseType.ResponseCounter;
+import capstone.bookitty.domain.dto.ResponseType.ResponseString;
 import capstone.bookitty.domain.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,8 @@ public class MemberController {
             @RequestBody @Valid LoginRequest request
     ){
         memberService.login(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .body(new ResponseString("login success!"));
     }
 
     @GetMapping(path = "/{id}")
@@ -75,7 +77,8 @@ public class MemberController {
             @PathVariable("id") Long memberId
     ){
         memberService.deleteMember(memberId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .body(new ResponseString("delete member!"));
     }
 
 }
