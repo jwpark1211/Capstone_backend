@@ -4,6 +4,8 @@ import capstone.bookitty.domain.dto.ResponseType.BasicResponse;
 import capstone.bookitty.domain.dto.ResponseType.ResponseCounter;
 import capstone.bookitty.domain.dto.ResponseType.ResponseString;
 import capstone.bookitty.domain.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import java.util.List;
 
 import static capstone.bookitty.domain.dto.MemberDTO.*;
 
+@Tag(name = "회원", description = "회원 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -20,6 +23,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @Operation(summary = "회원가입")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> save(
             @RequestBody @Valid SaveRequest request){
@@ -28,6 +32,7 @@ public class MemberController {
                        memberService.saveMember(request)));
     }
 
+    @Operation(summary = "이메일 중복 확인")
     @PostMapping(path = "/email/{email}/unique")
     public ResponseEntity<? extends BasicResponse> isEmailUnique(
             @PathVariable("email") String email
@@ -37,6 +42,7 @@ public class MemberController {
                         memberService.isEmailUnique(email)));
     }
 
+    @Operation(summary = "로그인")
     @PostMapping(path = "/login")
     public ResponseEntity<? extends BasicResponse> login(
             @RequestBody @Valid LoginRequest request
@@ -46,6 +52,7 @@ public class MemberController {
                 .body(new ResponseString("login success!"));
     }
 
+    @Operation(summary = "id로 회원 조회")
     @GetMapping(path = "/{id}")
     public ResponseEntity<? extends BasicResponse> findOneMember(
             @PathVariable("id") Long memberId
@@ -55,6 +62,7 @@ public class MemberController {
                         memberService.getMemberInfoWithId(memberId)));
     }
 
+    @Operation(summary = "전체 회원 조회")
     @GetMapping(path = "/all")
     public ResponseEntity<? extends BasicResponse> findAllMembers(){
         return ResponseEntity.ok(
@@ -72,6 +80,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }*/
 
+    @Operation(summary = "회원 탈퇴/추가 구현 필요(미완성)")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<? extends BasicResponse> deleteMember(
             @PathVariable("id") Long memberId
