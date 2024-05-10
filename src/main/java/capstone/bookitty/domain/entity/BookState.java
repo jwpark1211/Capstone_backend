@@ -47,4 +47,10 @@ public class BookState {
         this.readAt = readAt;
     }
 
+    public void updateState(State state){
+        this.state = state;
+        if(state == State.READ_ALREADY) readAtNow();
+    }
+    public void readAtNow(){readAt = LocalDateTime.now();}
+
 }
