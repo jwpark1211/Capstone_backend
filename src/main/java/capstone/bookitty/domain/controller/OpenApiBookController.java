@@ -43,11 +43,9 @@ public class OpenApiBookController {
         return openApiBookService.getBestSeller();
     }
 
-    /* [ 170 : 국내 경제경영 ] [ 987 : 과학 ] [ 2551 : 만화 ][ 798 : 사회 ]
-    [ 1 : 소설/시/희곡 ] [ 656 : 인문 ] [ 336 : 자기계발 ] [ 351 : 컴퓨터/모바일 ] */
+
     @Operation(summary = "카테고리별 베스트셀러 Top 10\n CategoryId: " +
-            "(170 : 국내 경제경영 ] [ 987 : 과학 ] [ 2551 : 만화 ][ 798 : 사회 ]" +
-            "[ 1 : 소설/시/희곡 ] [ 656 : 인문 ] [ 336 : 자기계발 ] [ 351 : 컴퓨터/모바일)")
+            "(170 : 경제경영 / 987 : 과학 / 1 : 문학 / 656 : 인문 / 336 : 자기계발")
     @GetMapping(path = "/bestseller/category/{category-id}")
     public Mono<AladinBestSellerResponseDTO> getBestSellerByGenre(
             @PathVariable("category-id") int cid
