@@ -11,4 +11,5 @@ public interface BookStateRepository extends JpaRepository<BookState,Long> {
     List<BookState> findByIsbn(String isbn);
     List<BookState> findByMemberId(Long memberId);
     boolean existsByMemberIdAndIsbn(Long memberId, String isbn);
+
 }
