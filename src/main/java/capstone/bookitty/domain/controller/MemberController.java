@@ -23,6 +23,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @Operation(summary = "CI/CD 구축 Test")
+    @GetMapping("/test")
+    public String test(){
+        return "CI/CD TEST 0514";
+    }
+
     @Operation(summary = "회원가입")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> save(
