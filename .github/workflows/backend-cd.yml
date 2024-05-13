@@ -8,31 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 저장소 Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-
-      - name: 스프링부트 애플리케이션 빌드 # (1)
-        run: ./gradlew build
-
-      - name: 도커 이미지 빌드 # (2)
-        run: docker build --platform linux/amd64 -t jeongwoon1849/bookitty .
-
-      - name: Docker Hub 로그인 # (3)
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Docker Hub 퍼블리시 # (4)
-        run: docker push jeongwoon1849/bookitty
-
-      - name: WAS 인스턴스 접속 및 애플리케이션 실행 # (5)
+      - name: WAS 인스턴스 접속 및 애플리케이션 실행
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.AWS_IP }}
