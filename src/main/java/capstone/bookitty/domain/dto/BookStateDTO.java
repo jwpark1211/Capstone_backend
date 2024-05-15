@@ -1,7 +1,9 @@
 package capstone.bookitty.domain.dto;
 
+import capstone.bookitty.domain.annotation.ValidEnum;
 import capstone.bookitty.domain.entity.BookState;
 import capstone.bookitty.domain.entity.State;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,12 +18,12 @@ public class BookStateDTO {
 
     @Data
     public static class SaveRequest {
-        @NotEmpty
+        @NotBlank(message = "ISBN is a requred entry value.")
         private String isbn;
-        @NotNull
+        @NotNull(message = "memberId is a required entry value.")
         private Long memberId;
-        @NotEmpty //valid 어노테이션(state, passwd 구현)
-        private String state;
+        @ValidEnum(enumClass = State.class, message = "State is not valid.")
+        private State state;
         private String categoryName;
         private String bookTitle;
         private String bookAuthor;
@@ -30,8 +32,8 @@ public class BookStateDTO {
 
     @Data
     public static class UpdateRequest{
-        @NotEmpty
-        private String state;
+        @ValidEnum(enumClass = State.class, message = "State is not valid.")
+        private State state;
     }
 
     @Getter

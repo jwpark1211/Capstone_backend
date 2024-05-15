@@ -19,7 +19,7 @@ public class BookState {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     private String isbn;

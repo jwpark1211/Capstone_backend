@@ -27,22 +27,16 @@ public class BookStateService {
     @Transactional
     public IdResponse saveState(SaveRequest request) {
 
-        State reqState;
-        try {
-            reqState = State.valueOf(request.getState());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid state: " + request.getState(), e);
-        }
-
         Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(()->new EntityNotFoundException(
+                        "Member not found for ID: "+request.getMemberId()));
 
         if(stateRepository.existsByMemberIdAndIsbn(request.getMemberId(), request.getIsbn()))
-            throw new IllegalArgumentException("bookState already exists");
+            throw new IllegalArgumentException("bookState already exists.");
 
         BookState bookState = BookState.builder()
                 .member(member)
-                .state(reqState)
+                .state(request.getState())
                 .isbn(request.getIsbn())
                 .bookTitle(request.getBookTitle())
                 .bookAuthor(request.getBookAuthor())
@@ -50,7 +44,7 @@ public class BookStateService {
                 .categoryName(request.getCategoryName())
                 .build();
 
-        if(reqState == State.READ_ALREADY) bookState.readAtNow();
+        if(request.getState() == State.READ_ALREADY) bookState.readAtNow();
 
         stateRepository.save(bookState);
         return new IdResponse(bookState.getId());
@@ -79,14 +73,7 @@ public class BookStateService {
         BookState bookState = stateRepository.findById(stateId)
                 .orElseThrow(() -> new EntityNotFoundException("BookState not found for ID: " + stateId));
 
-        State reqState;
-        try {
-            reqState = State.valueOf(request.getState());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid state: " + request.getState(), e);
-        }
-
-        bookState.updateState(reqState);
+        bookState.updateState(request.getState());
     }
 
     @Transactional
