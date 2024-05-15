@@ -23,10 +23,10 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @Operation(summary = "CI/CD 구축 Test")
+    @Operation(summary = "deloy test")
     @GetMapping("/test")
     public String test(){
-        return "CI/CD TEST 0514";
+        return "DEPLOY 0515";
     }
 
     @Operation(summary = "회원가입")
