@@ -43,6 +43,14 @@ public class StarController {
                         starService.findStarByStarId(starId)));
     }
 
+    @Operation(summary = "전체 평점 가져오기")
+    @GetMapping(path = "/all")
+    public ResponseEntity<? extends BasicResponse> getAllStar(){
+        return ResponseEntity.ok()
+                .body(new ResponseCounter<List<InfoResponse>>(
+                        starService.findAllStar()));
+    }
+
     //TODO: PAGING
     @Operation(summary = "isbn으로 평점 리스트 가져오기")
     @GetMapping(path = "/isbn/{isbn}")

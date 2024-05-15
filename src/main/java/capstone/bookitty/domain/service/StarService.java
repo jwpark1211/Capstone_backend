@@ -74,4 +74,10 @@ public class StarService {
                 .orElseThrow(()-> new EntityNotFoundException("Star with ID "+starId+" not found."));
         starRepository.delete(star);
     }
+
+    public List<InfoResponse> findAllStar() {
+        return starRepository.findAll().stream()
+                .map(InfoResponse::of)
+                .collect(Collectors.toList());
+    }
 }
