@@ -8,7 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
 
 import static capstone.bookitty.domain.dto.MemberDTO.*;
 
@@ -17,6 +21,7 @@ import static capstone.bookitty.domain.dto.MemberDTO.*;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     @Transactional
     public IdResponse saveMember(MemberSaveRequest request) {
@@ -58,16 +63,27 @@ public class MemberService {
                 .map(MemberInfoResponse::of);
     }
 
-    /*TODO: S3 관련 처리
     @Transactional
     public void updateProfile(Long memberId, MultipartFile profileImg)
-    throws MultipartException {
-        if(profileImg.isEmpty())
-            throw new MultipartException("The file is not valid.");
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(()-> new EntityNotFoundException("member not found."));
-        member.updateImg(url);
-    }*/
+            throws MultipartException, IOException {
+        try {
+            if (profileImg.isEmpty()) {
+                throw new MultipartException("The file is not valid.");
+            }
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new EntityNotFoundException("member not found."));
+            String imageUrl = s3Service.uploadFile(profileImg);
+            member.updateProfile(imageUrl);
+        } catch (MultipartException e) {
+            throw e;
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (IOException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred while updating the profile.", e);
+        }
+    }
 
     //TODO : SPRING SECURITY AUTHORITY SETTING
     @Transactional

@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static capstone.bookitty.domain.dto.MemberDTO.*;
 
@@ -81,7 +84,7 @@ public class MemberController {
                         memberService.getAllMemberInfo(pageable)));
     }
 
-    /* TODO : S3
+    @Operation(summary = "회원 프로필 업로드 / requestPart 이름 : profile")
     @PostMapping(path = "/{id}/profile")
     public ResponseEntity<? extends BasicResponse> updateMemberProfile(
             @PathVariable("id") Long memberId,
@@ -89,7 +92,7 @@ public class MemberController {
             ) throws IOException {
         memberService.updateProfile(memberId, profileImg);
         return ResponseEntity.ok().build();
-    }*/
+    }
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping(path = "/{id}")
