@@ -25,7 +25,7 @@ public class StarService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public IdResponse saveStar(SaveRequest request) {
+    public IdResponse saveStar(StarSaveRequest request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(()->new EntityNotFoundException(
                         "Member with ID "+request.getMemberId()+" not found."));
@@ -44,26 +44,26 @@ public class StarService {
         return new IdResponse(star.getId());
     }
 
-    public InfoResponse findStarByStarId(Long starId) {
+    public StarInfoResponse findStarByStarId(Long starId) {
         return starRepository.findById(starId)
-                .map(InfoResponse::of)
+                .map(StarInfoResponse::of)
                 .orElseThrow(()->new EntityNotFoundException("Star with ID "+starId+" not found."));
     }
 
-    public Page<InfoResponse> findStarByISBN(String isbn, Pageable pageable) {
+    public Page<StarInfoResponse> findStarByISBN(String isbn, Pageable pageable) {
         return starRepository.findByIsbn(isbn,pageable)
-                .map(InfoResponse::of);
+                .map(StarInfoResponse::of);
     }
 
-    public Page<InfoResponse> findStarByMemberId(Long memberId, Pageable pageable) {
+    public Page<StarInfoResponse> findStarByMemberId(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new EntityNotFoundException("Member with ID "+ memberId+" not found."));
         return starRepository.findByMemberId(memberId,pageable)
-                .map(InfoResponse::of);
+                .map(StarInfoResponse::of);
     }
 
     @Transactional
-    public void updateStar(Long starId, UpdateRequest request) {
+    public void updateStar(Long starId, StarUpdateRequest request) {
         Star star = starRepository.findById(starId)
                 .orElseThrow(()-> new EntityNotFoundException("Star with ID "+starId+" not found."));
         star.updateStar(request.getScore());
@@ -76,8 +76,8 @@ public class StarService {
         starRepository.delete(star);
     }
 
-    public Page<InfoResponse> findAllStar(Pageable pageable) {
+    public Page<StarInfoResponse> findAllStar(Pageable pageable) {
         return starRepository.findAll(pageable)
-                .map(InfoResponse::of);
+                .map(StarInfoResponse::of);
     }
 }

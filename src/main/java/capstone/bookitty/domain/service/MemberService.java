@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static capstone.bookitty.domain.dto.MemberDTO.*;
 
@@ -21,7 +19,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public IdResponse saveMember(SaveRequest request) {
+    public IdResponse saveMember(MemberSaveRequest request) {
         if(memberRepository.existsByEmail(request.getEmail()))
             throw new IllegalArgumentException("Email already in use.");
 
@@ -42,22 +40,22 @@ public class MemberService {
     }
 
     @Transactional
-    public void login(LoginRequest request) {
+    public void login(MemberLoginRequest request) {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(()-> new EntityNotFoundException("Member not found."));
         if(!member.getPassword().equals(request.getPassword()))
             throw new IllegalArgumentException("Invalid login credentials.");
     }
 
-    public InfoResponse getMemberInfoWithId(Long memberId) {
+    public MemberInfoResponse getMemberInfoWithId(Long memberId) {
         return memberRepository.findById(memberId)
-                .map(InfoResponse::of)
+                .map(MemberInfoResponse::of)
                 .orElseThrow(()-> new EntityNotFoundException("Member not found."));
     }
 
-    public Page<InfoResponse> getAllMemberInfo(Pageable pageable) {
+    public Page<MemberInfoResponse> getAllMemberInfo(Pageable pageable) {
         return memberRepository.findAll(pageable)
-                .map(InfoResponse::of);
+                .map(MemberInfoResponse::of);
     }
 
     /*TODO: S3 관련 처리

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 public class StarDTO {
     @Data
-    public static class SaveRequest{
+    public static class StarSaveRequest{
         @NotBlank(message = "Isbn is a required entry value.")
         private String isbn;
         @NotNull(message = "memberId is a required entry value.")
@@ -24,7 +24,7 @@ public class StarDTO {
     }
 
     @Data
-    public static class UpdateRequest{
+    public static class StarUpdateRequest{
         @NotNull(message = "score is a required entry value.")
         @ValidScore
         private double score;
@@ -43,7 +43,7 @@ public class StarDTO {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse{
+    public static class StarInfoResponse{
         private Long id;
         private Long memberId;
         private String isbn;
@@ -53,8 +53,8 @@ public class StarDTO {
         @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
         private LocalDateTime modifiedAt;
 
-        public static InfoResponse of(Star star){
-            return new InfoResponse(star.getId(), star.getMember().getId(),star.getIsbn(),
+        public static StarInfoResponse of(Star star){
+            return new StarInfoResponse(star.getId(), star.getMember().getId(),star.getIsbn(),
                     star.getScore(),star.getCreatedAt(),star.getModifiedAt());
         }
     }

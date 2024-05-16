@@ -26,10 +26,10 @@ public class BookStateController {
 
     private final BookStateService bookStateService;
 
-    @Operation(summary = "책 상태 생성")
+    @Operation(summary = "책 상태 생성 / state=READING or WANT_TO_READ or READ_ALREADY")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveBookState(
-            @RequestBody @Valid SaveRequest request
+            @RequestBody @Valid StateSaveRequest request
     ){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<IdResponse>(
@@ -44,7 +44,7 @@ public class BookStateController {
             @PageableDefault(sort = "id", size=10) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<StateInfoResponse>>(
                         bookStateService.findStateByISBN(isbn, pageable)));
     }
 
@@ -54,7 +54,7 @@ public class BookStateController {
             @PathVariable("state-id") Long stateId
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<InfoResponse>(
+                .body(new ResponseCounter<StateInfoResponse>(
                         bookStateService.findStateByStateId(stateId)));
     }
 
@@ -66,15 +66,15 @@ public class BookStateController {
             @PageableDefault(sort = "id", size=10) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<StateInfoResponse>>(
                         bookStateService.findStateByMemberId(memberId,pageable)));
     }
 
-    @Operation(summary = "state 정보 수정")
+    @Operation(summary = "state 정보 수정 / state=READING or WANT_TO_READ or READ_ALREADY")
     @PatchMapping(path = "/{state-id}")
     public ResponseEntity<? extends BasicResponse> updateState(
             @PathVariable("state-id") Long stateId,
-            @RequestBody @Valid UpdateRequest request
+            @RequestBody @Valid StateUpdateRequest request
     ){
         bookStateService.updateState(stateId, request);
         return ResponseEntity.ok()

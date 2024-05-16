@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static capstone.bookitty.domain.dto.BookStateDTO.*;
 
 @Service
@@ -27,7 +24,7 @@ public class BookStateService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public IdResponse saveState(SaveRequest request) {
+    public IdResponse saveState(StateSaveRequest request) {
 
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(()->new EntityNotFoundException(
@@ -52,28 +49,28 @@ public class BookStateService {
         return new IdResponse(bookState.getId());
     }
 
-    public Page<InfoResponse> findStateByISBN(String isbn, Pageable pageable) {
+    public Page<StateInfoResponse> findStateByISBN(String isbn, Pageable pageable) {
         return stateRepository.findByIsbn(isbn, pageable)
-                .map(InfoResponse::of);
+                .map(StateInfoResponse::of);
     }
 
-    public InfoResponse findStateByStateId(Long stateId) {
+    public StateInfoResponse findStateByStateId(Long stateId) {
         return stateRepository.findById(stateId)
-                .map(InfoResponse::of)
+                .map(StateInfoResponse::of)
                 .orElseThrow(() -> new EntityNotFoundException("BookState with ID " + stateId + " not found."));
     }
 
-    public Page<InfoResponse> findStateByMemberId(Long memberId, Pageable pageable) {
+    public Page<StateInfoResponse> findStateByMemberId(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new EntityNotFoundException(
                         "Member with ID: "+memberId+" not found."));
 
         return stateRepository.findByMemberId(memberId,pageable)
-                .map(InfoResponse::of);
+                .map(StateInfoResponse::of);
     }
 
     @Transactional
-    public void updateState(Long stateId, UpdateRequest request) {
+    public void updateState(Long stateId, StateUpdateRequest request) {
         BookState bookState = stateRepository.findById(stateId)
                 .orElseThrow(() -> new EntityNotFoundException("BookState not found for ID: " + stateId));
 

@@ -25,7 +25,7 @@ public class CommentService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public IdResponse saveComment(SaveRequest request) {
+    public IdResponse saveComment(CommentSaveRequest request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(()->new EntityNotFoundException(
                         "Member with ID "+request.getMemberId()+" not found."));
@@ -42,41 +42,41 @@ public class CommentService {
         return new IdResponse(comment.getId());
     }
 
-    public InfoResponse findCommentByCommentId(Long commentId) {
+    public CommentInfoResponse findCommentByCommentId(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentId + " not found."));
         int like_count = likeRepository.findByCommentId(commentId).size();
-        return InfoResponse.of(comment, like_count);
+        return CommentInfoResponse.of(comment, like_count);
     }
 
-    public Page<InfoResponse> findAllComment(Pageable pageable) {
+    public Page<CommentInfoResponse> findAllComment(Pageable pageable) {
         return commentRepository.findAll(pageable)
                 .map(comment -> {
                     int like_count = likeRepository.findByCommentId(comment.getId()).size();
-                    return InfoResponse.of(comment,like_count);
+                    return CommentInfoResponse.of(comment,like_count);
                 });
     }
 
-    public Page<InfoResponse> findCommentByIsbn(String isbn, Pageable pageable) {
+    public Page<CommentInfoResponse> findCommentByIsbn(String isbn, Pageable pageable) {
         return commentRepository.findByIsbn(isbn,pageable)
                 .map(comment -> {
                     int like_count = likeRepository.findByCommentId(comment.getId()).size();
-                    return InfoResponse.of(comment,like_count);
+                    return CommentInfoResponse.of(comment,like_count);
                 });
     }
 
-    public Page<InfoResponse> findCommentByMemberId(Long memberId, Pageable pageable) {
+    public Page<CommentInfoResponse> findCommentByMemberId(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new EntityNotFoundException("Member with ID "+memberId+" not found."));
         return commentRepository.findByMemberId(memberId,pageable)
                 .map(comment -> {
                     int like_count = likeRepository.findByCommentId(comment.getId()).size();
-                    return InfoResponse.of(comment,like_count);
+                    return CommentInfoResponse.of(comment,like_count);
                 });
     }
 
     @Transactional
-    public void updateComment(Long commentId, UpdateRequest request) {
+    public void updateComment(Long commentId, CommentUpdateRequest request) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentId + " not found."));
         comment.updateContent(request.getContent());

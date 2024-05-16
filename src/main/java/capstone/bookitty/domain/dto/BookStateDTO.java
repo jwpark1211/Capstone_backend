@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class BookStateDTO {
 
     @Data
-    public static class SaveRequest {
+    public static class StateSaveRequest {
         @NotBlank(message = "ISBN is a requred entry value.")
         private String isbn;
         @NotNull(message = "memberId is a required entry value.")
@@ -30,7 +30,7 @@ public class BookStateDTO {
     }
 
     @Data
-    public static class UpdateRequest{
+    public static class StateUpdateRequest{
         @ValidEnum(enumClass = State.class, message = "State is not valid.")
         private State state;
     }
@@ -48,7 +48,7 @@ public class BookStateDTO {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse{
+    public static class StateInfoResponse{
         private Long id;
         private Long memberId;
         private String isbn;
@@ -60,8 +60,8 @@ public class BookStateDTO {
         @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
         private LocalDateTime readAt;
 
-        public static InfoResponse of(BookState state){
-            return new InfoResponse(state.getId(), state.getMember().getId(), state.getIsbn(),
+        public static StateInfoResponse of(BookState state){
+            return new StateInfoResponse(state.getId(), state.getMember().getId(), state.getIsbn(),
                     state.getState(),state.getCategoryName(),state.getBookTitle(),state.getBookAuthor(),
                     state.getBookImgUrl(),state.getReadAt());
         }
