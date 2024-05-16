@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static capstone.bookitty.domain.dto.MemberDTO.*;
 
@@ -68,12 +70,15 @@ public class MemberController {
                         memberService.getMemberInfoWithId(memberId)));
     }
 
-    @Operation(summary = "전체 회원 조회")
+    @Operation(summary = "전체 회원 조회\n page는 requestParam으로 요청할 수 있습니다. \n"+
+    "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/all")
-    public ResponseEntity<? extends BasicResponse> findAllMembers(){
+    public ResponseEntity<? extends BasicResponse> findAllMembers(
+            @PageableDefault(sort="id",size = 10) Pageable pageable
+    ){
         return ResponseEntity.ok(
-                new ResponseCounter<List<InfoResponse>>(
-                        memberService.getAllMemberInfo()));
+                new ResponseCounter<Page<InfoResponse>>(
+                        memberService.getAllMemberInfo(pageable)));
     }
 
     /* TODO : S3
