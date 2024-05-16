@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static capstone.bookitty.domain.dto.CommentDTO.*;
 
 @Service
@@ -88,8 +86,6 @@ public class CommentService {
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentId + " not found."));
-        List<Like> relatedLike = likeRepository.findByCommentId(commentId);
-        for(Like like : relatedLike){ likeRepository.delete(like); }
         commentRepository.delete(comment);
     }
 
