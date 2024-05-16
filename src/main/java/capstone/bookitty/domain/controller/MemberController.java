@@ -40,7 +40,7 @@ public class MemberController {
     }
 
     @Operation(summary = "이메일 중복 확인")
-    @PostMapping(path = "/email/{email}/unique")
+    @GetMapping(path = "/email/{email}/unique")
     public ResponseEntity<? extends BasicResponse> isEmailUnique(
             @PathVariable("email") String email
     ){

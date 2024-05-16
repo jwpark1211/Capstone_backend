@@ -56,7 +56,7 @@ public class MemberDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class BoolResponse{
-        private boolean isTrue;
+        private boolean isUnique;
     }
 
     @Getter
