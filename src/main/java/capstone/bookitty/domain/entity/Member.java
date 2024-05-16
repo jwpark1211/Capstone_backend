@@ -44,6 +44,15 @@ public class Member {
         this.password = password;
         this.birthDate = birthDate;
         this.createdAt = LocalDateTime.now();
+        this.profileImg = "https://bookitty-bucket.s3.ap-northeast-2.amazonaws.com/Jiji.jpeg";
         this.grade = Grade.USER;
+    }
+
+    public void updateProfile(String profileImg){
+        this.profileImg = profileImg;
+    }
+
+    public void deleteProfile(){
+        this.profileImg = "https://bookitty-bucket.s3.ap-northeast-2.amazonaws.com/Jiji.jpeg";
     }
 }
