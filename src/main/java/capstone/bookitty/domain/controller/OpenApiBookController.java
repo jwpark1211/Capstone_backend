@@ -44,8 +44,8 @@ public class OpenApiBookController {
     }
 
 
-    @Operation(summary = "카테고리별 베스트셀러 Top 10\n CategoryId: " +
-            "(170 : 경제경영 / 987 : 과학 / 1 : 문학 / 656 : 인문 / 336 : 자기계발")
+    @Operation(summary = "카테고리별 베스트셀러 Top 10\n / CategoryId: " +
+            "(170 : 경제경영 / 987 : 과학 / 1 : 문학 / 656 : 인문 / 336 : 자기계발)")
     @GetMapping(path = "/bestseller/category/{category-id}")
     public Mono<AladinBestSellerResponseDTO> getBestSellerByGenre(
             @PathVariable("category-id") int cid

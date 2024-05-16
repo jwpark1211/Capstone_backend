@@ -7,6 +7,8 @@ import capstone.bookitty.domain.repository.BookStateRepository;
 import capstone.bookitty.domain.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,10 +52,9 @@ public class BookStateService {
         return new IdResponse(bookState.getId());
     }
 
-    public List<InfoResponse> findStateByISBN(String isbn) {
-        return stateRepository.findByIsbn(isbn).stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> findStateByISBN(String isbn, Pageable pageable) {
+        return stateRepository.findByIsbn(isbn, pageable)
+                .map(InfoResponse::of);
     }
 
     public InfoResponse findStateByStateId(Long stateId) {
@@ -62,10 +63,13 @@ public class BookStateService {
                 .orElseThrow(() -> new EntityNotFoundException("BookState with ID " + stateId + " not found."));
     }
 
-    public List<InfoResponse> findStateByMemberId(Long memberId) {
-        return stateRepository.findByMemberId(memberId).stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> findStateByMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new EntityNotFoundException(
+                        "Member with ID: "+memberId+" not found."));
+
+        return stateRepository.findByMemberId(memberId,pageable)
+                .map(InfoResponse::of);
     }
 
     @Transactional

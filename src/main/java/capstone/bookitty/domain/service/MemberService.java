@@ -4,6 +4,8 @@ import capstone.bookitty.domain.entity.Member;
 import capstone.bookitty.domain.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,10 +55,9 @@ public class MemberService {
                 .orElseThrow(()-> new EntityNotFoundException("Member not found."));
     }
 
-    public List<InfoResponse> getAllMemberInfo() {
-        return memberRepository.findAll().stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> getAllMemberInfo(Pageable pageable) {
+        return memberRepository.findAll(pageable)
+                .map(InfoResponse::of);
     }
 
     /*TODO: S3 관련 처리

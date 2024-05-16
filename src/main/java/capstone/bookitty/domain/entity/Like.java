@@ -13,36 +13,30 @@ import java.time.LocalDateTime;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="star")
-public class Star {
+@Table(name = "like_count")
+public class Like {
 
-    @Id @Column(name = "star_id")
+    @Id @Column(name="like_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
-    private String isbn;
-    private double score;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Comment comment;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
-    private LocalDateTime modifiedAt;
 
     @Builder
-    public Star(Member member, String isbn, double score, LocalDateTime createdAt) {
+    public Like(Member member, Comment comment){
         this.member = member;
-        this.isbn = isbn;
-        this.score = score;
-        this.createdAt = createdAt;
-    }
-
-    public void updateStar(double score){
-        this.modifiedAt = LocalDateTime.now();
-        this.score = score;
+        this.comment = comment;
+        this.createdAt = LocalDateTime.now();
     }
 }

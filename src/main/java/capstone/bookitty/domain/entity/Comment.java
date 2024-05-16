@@ -13,20 +13,20 @@ import java.time.LocalDateTime;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="star")
-public class Star {
+@Table(name="comment")
+public class Comment {
 
-    @Id @Column(name = "star_id")
+    @Id @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     private String isbn;
-    private double score;
+    private String content;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
@@ -34,15 +34,16 @@ public class Star {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Star(Member member, String isbn, double score, LocalDateTime createdAt) {
+    public Comment(Member member, String isbn, String content) {
         this.member = member;
         this.isbn = isbn;
-        this.score = score;
-        this.createdAt = createdAt;
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
     }
 
-    public void updateStar(double score){
+    public void updateContent(String content){
+        this.content = content;
         this.modifiedAt = LocalDateTime.now();
-        this.score = score;
     }
+
 }
