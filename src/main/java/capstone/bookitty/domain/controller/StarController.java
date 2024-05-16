@@ -15,8 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static capstone.bookitty.domain.dto.StarDTO.*;
 
 @Tag(name="평점", description = "평점 관리 api 입니다.")
@@ -49,10 +47,10 @@ public class StarController {
 
 
     @Operation(summary = "전체 평점 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
-            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+            "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/all")
     public ResponseEntity<? extends BasicResponse> getAllStar(
-            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<Page<InfoResponse>>(
@@ -60,11 +58,11 @@ public class StarController {
     }
 
     @Operation(summary = "isbn으로 평점 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
-            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+            "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/isbn/{isbn}")
     public ResponseEntity<? extends BasicResponse> getStarByISBN(
             @PathVariable("isbn") String isbn,
-            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<Page<InfoResponse>>(
@@ -72,7 +70,7 @@ public class StarController {
     }
 
     @Operation(summary = "member id로 평점 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
-            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+            "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/member/{member-id}")
     public ResponseEntity<? extends BasicResponse> getStarByMemberId(
             @PathVariable("member-id") Long memberId,

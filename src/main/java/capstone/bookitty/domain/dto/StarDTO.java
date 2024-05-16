@@ -17,7 +17,7 @@ public class StarDTO {
     public static class SaveRequest{
         @NotBlank(message = "Isbn is a required entry value.")
         private String isbn;
-        @NotNull
+        @NotNull(message = "memberId is a required entry value.")
         private Long memberId;
         @ValidScore
         private double score;
@@ -25,7 +25,7 @@ public class StarDTO {
 
     @Data
     public static class UpdateRequest{
-        @NotNull
+        @NotNull(message = "score is a required entry value.")
         @ValidScore
         private double score;
     }

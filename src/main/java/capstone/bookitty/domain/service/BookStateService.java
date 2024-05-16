@@ -64,6 +64,10 @@ public class BookStateService {
     }
 
     public Page<InfoResponse> findStateByMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new EntityNotFoundException(
+                        "Member with ID: "+memberId+" not found."));
+
         return stateRepository.findByMemberId(memberId,pageable)
                 .map(InfoResponse::of);
     }

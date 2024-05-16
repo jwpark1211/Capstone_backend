@@ -70,7 +70,7 @@ public class MemberController {
     }
 
     @Operation(summary = "전체 회원 조회 / page는 requestParam으로 요청할 수 있습니다. / "+
-    "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+    "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/all")
     public ResponseEntity<? extends BasicResponse> findAllMembers(
             @PageableDefault(sort="id",size = 10) Pageable pageable

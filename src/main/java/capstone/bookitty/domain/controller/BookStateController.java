@@ -37,7 +37,7 @@ public class BookStateController {
     }
 
     @Operation(summary = "isbn으로 책 상태 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
-            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+            "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/isbn/{isbn}")
     public ResponseEntity<? extends BasicResponse> getStateByISBN(
             @PathVariable("isbn") String isbn,
@@ -59,7 +59,7 @@ public class BookStateController {
     }
 
     @Operation(summary = "memberId로 책 상태 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
-            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
+            "size(한 페이지 당 element 수, default = 10), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/member/{member-id}")
     public ResponseEntity<? extends BasicResponse> getStateByMemberId(
             @PathVariable("member-id") Long memberId,
