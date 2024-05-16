@@ -6,12 +6,13 @@ import capstone.bookitty.domain.repository.MemberRepository;
 import capstone.bookitty.domain.repository.StarRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 import static capstone.bookitty.domain.dto.StarDTO.*;
 
@@ -49,16 +50,16 @@ public class StarService {
                 .orElseThrow(()->new EntityNotFoundException("Star with ID "+starId+" not found."));
     }
 
-    public List<InfoResponse> findStarByISBN(String isbn) {
-        return starRepository.findByIsbn(isbn).stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> findStarByISBN(String isbn, Pageable pageable) {
+        return starRepository.findByIsbn(isbn,pageable)
+                .map(InfoResponse::of);
     }
 
-    public List<InfoResponse> findStarByMemberId(Long memberId) {
-        return starRepository.findByMemberId(memberId).stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> findStarByMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()-> new EntityNotFoundException("Member with ID "+ memberId+" not found."));
+        return starRepository.findByMemberId(memberId,pageable)
+                .map(InfoResponse::of);
     }
 
     @Transactional
@@ -75,9 +76,8 @@ public class StarService {
         starRepository.delete(star);
     }
 
-    public List<InfoResponse> findAllStar() {
-        return starRepository.findAll().stream()
-                .map(InfoResponse::of)
-                .collect(Collectors.toList());
+    public Page<InfoResponse> findAllStar(Pageable pageable) {
+        return starRepository.findAll(pageable)
+                .map(InfoResponse::of);
     }
 }

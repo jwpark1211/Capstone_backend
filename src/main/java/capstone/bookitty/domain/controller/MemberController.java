@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +69,7 @@ public class MemberController {
                         memberService.getMemberInfoWithId(memberId)));
     }
 
-    @Operation(summary = "전체 회원 조회\n page는 requestParam으로 요청할 수 있습니다. \n"+
+    @Operation(summary = "전체 회원 조회 / page는 requestParam으로 요청할 수 있습니다. / "+
     "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/all")
     public ResponseEntity<? extends BasicResponse> findAllMembers(

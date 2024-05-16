@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +36,16 @@ public class BookStateController {
                         bookStateService.saveState(request)));
     }
 
-    @Operation(summary = "isbn으로 책 상태 리스트 가져오기")
+    @Operation(summary = "isbn으로 책 상태 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
+            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/isbn/{isbn}")
     public ResponseEntity<? extends BasicResponse> getStateByISBN(
-            @PathVariable("isbn") String isbn
+            @PathVariable("isbn") String isbn,
+            @PageableDefault(sort = "id", size=10) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<List<InfoResponse>>(
-                        bookStateService.findStateByISBN(isbn)));
+                .body(new ResponseCounter<Page<InfoResponse>>(
+                        bookStateService.findStateByISBN(isbn, pageable)));
     }
 
     @Operation(summary = "stateId로 책 상태 가져오기")
@@ -53,14 +58,16 @@ public class BookStateController {
                         bookStateService.findStateByStateId(stateId)));
     }
 
-    @Operation(summary = "memberId로 책 상태 리스트 가져오기")
+    @Operation(summary = "memberId로 책 상태 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
+            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/member/{member-id}")
     public ResponseEntity<? extends BasicResponse> getStateByMemberId(
-            @PathVariable("member-id") Long memberId
+            @PathVariable("member-id") Long memberId,
+            @PageableDefault(sort = "id", size=10) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<List<InfoResponse>>(
-                        bookStateService.findStateByMemberId(memberId)));
+                .body(new ResponseCounter<Page<InfoResponse>>(
+                        bookStateService.findStateByMemberId(memberId,pageable)));
     }
 
     @Operation(summary = "state 정보 수정")

@@ -8,6 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,34 +47,40 @@ public class StarController {
                         starService.findStarByStarId(starId)));
     }
 
-    @Operation(summary = "전체 평점 가져오기")
+
+    @Operation(summary = "전체 평점 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
+            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/all")
-    public ResponseEntity<? extends BasicResponse> getAllStar(){
+    public ResponseEntity<? extends BasicResponse> getAllStar(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<List<InfoResponse>>(
-                        starService.findAllStar()));
+                .body(new ResponseCounter<Page<InfoResponse>>(
+                        starService.findAllStar(pageable)));
     }
 
-    //TODO: PAGING
-    @Operation(summary = "isbn으로 평점 리스트 가져오기")
+    @Operation(summary = "isbn으로 평점 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
+            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/isbn/{isbn}")
     public ResponseEntity<? extends BasicResponse> getStarByISBN(
-            @PathVariable("isbn") String isbn
+            @PathVariable("isbn") String isbn,
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<List<InfoResponse>>(
-                        starService.findStarByISBN(isbn)));
+                .body(new ResponseCounter<Page<InfoResponse>>(
+                        starService.findStarByISBN(isbn,pageable)));
     }
 
-    //TODO: PAGING
-    @Operation(summary = "member id로 평점 리스트 가져오기")
+    @Operation(summary = "member id로 평점 리스트 가져오기 / page는 requestParam으로 요청할 수 있습니다. / "+
+            "size(한 페이지 당 element 수), page(요청하는 페이지, 0부터 시작)")
     @GetMapping(path = "/member/{member-id}")
     public ResponseEntity<? extends BasicResponse> getStarByMemberId(
-            @PathVariable("member-id") Long memberId
+            @PathVariable("member-id") Long memberId,
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<List<InfoResponse>>(
-                        starService.findStarByMemberId(memberId)));
+                .body(new ResponseCounter<Page<InfoResponse>>(
+                        starService.findStarByMemberId(memberId,pageable)));
     }
 
     @Operation(summary = "평점 수정")
