@@ -30,7 +30,7 @@ public class Like {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment comment;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Builder

@@ -28,17 +28,17 @@ public class Star {
     private String isbn;
     private double score;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Star(Member member, String isbn, double score, LocalDateTime createdAt) {
+    public Star(Member member, String isbn, double score) {
         this.member = member;
         this.isbn = isbn;
         this.score = score;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void updateStar(double score){

@@ -27,7 +27,7 @@ public class MemberDTO {
         private String password;
         @ValidEnum(enumClass = Gender.class, message = "Invalid gender")
         private Gender gender; //FEMALE 혹은 MALE
-        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate birthdate;
         @NotBlank(message = "name is a required entry value.")
         private String name;
@@ -68,7 +68,7 @@ public class MemberDTO {
         private String profileImg;
         private String name;
         private Gender gender;
-        @DateTimeFormat(pattern="yyyy-mm-dd")
+        @DateTimeFormat(pattern="yyyy-MM-dd")
         private LocalDate birthDate;
 
         public static MemberInfoResponse of(Member member){

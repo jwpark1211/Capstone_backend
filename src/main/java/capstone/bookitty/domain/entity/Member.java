@@ -24,7 +24,7 @@ public class Member {
     private String email;
     private String password;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private LocalDateTime createdAt;
 
