@@ -24,13 +24,14 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @Operation(summary = "deloy test")
+    @Operation(summary = "deploy test")
     @GetMapping("/test")
     public String test(){
-        return "DEPLOY 0515";
+        return "DEPLOY 0517";
     }
 
-    @Operation(summary = "회원가입")
+    @Operation(summary = "회원가입/"+"비밀번호=영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자/"
+    +"gender=MALE or FEMALE/"+"birthdate=yyyy-mm-dd/"+"email=이메일 format 준수")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> save(
             @RequestBody @Valid MemberSaveRequest request){
@@ -90,7 +91,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }*/
 
-    @Operation(summary = "회원 탈퇴/추가 구현 필요(미완성)")
+    @Operation(summary = "회원 탈퇴")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<? extends BasicResponse> deleteMember(
             @PathVariable("id") Long memberId

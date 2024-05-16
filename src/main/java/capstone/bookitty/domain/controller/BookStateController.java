@@ -26,7 +26,7 @@ public class BookStateController {
 
     private final BookStateService bookStateService;
 
-    @Operation(summary = "책 상태 생성")
+    @Operation(summary = "책 상태 생성 / state=READING or WANT_TO_READ or READ_ALREADY")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveBookState(
             @RequestBody @Valid StateSaveRequest request
@@ -70,7 +70,7 @@ public class BookStateController {
                         bookStateService.findStateByMemberId(memberId,pageable)));
     }
 
-    @Operation(summary = "state 정보 수정")
+    @Operation(summary = "state 정보 수정 / state=READING or WANT_TO_READ or READ_ALREADY")
     @PatchMapping(path = "/{state-id}")
     public ResponseEntity<? extends BasicResponse> updateState(
             @PathVariable("state-id") Long stateId,

@@ -25,7 +25,7 @@ public class StarController {
 
     private final StarService starService;
 
-    @Operation(summary = "평점 생성[평점은 0.5부터 5까지 0.5단위로 증가합니다.")
+    @Operation(summary = "평점 생성[평점은 0.5부터 5까지 0.5단위로 증가합니다.]")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveStar(
             @RequestBody @Valid StarSaveRequest request

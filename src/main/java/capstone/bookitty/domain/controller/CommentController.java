@@ -25,7 +25,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Operation(summary = "코멘트 생성")
+    @Operation(summary = "코멘트 생성 / content는 최소 1자, 최대 100자")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveComment(
             @RequestBody @Valid CommentSaveRequest request
@@ -80,7 +80,7 @@ public class CommentController {
                         commentService.findCommentByMemberId(memberId, pageable)));
     }
 
-    @Operation(summary = "코멘트 수정")
+    @Operation(summary = "코멘트 수정 / content는 최소 1자, 최대 100자")
     @PatchMapping(path = "/{comment-id}")
     public ResponseEntity<? extends BasicResponse> updateComment(
             @PathVariable("comment-id") Long commentId,
