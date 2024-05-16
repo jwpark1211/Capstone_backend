@@ -4,7 +4,6 @@ import capstone.bookitty.domain.annotation.ValidEnum;
 import capstone.bookitty.domain.entity.BookState;
 import capstone.bookitty.domain.entity.State;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

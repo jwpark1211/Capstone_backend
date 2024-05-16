@@ -2,7 +2,7 @@ package capstone.bookitty.domain.dto;
 
 import capstone.bookitty.domain.annotation.ValidScore;
 import capstone.bookitty.domain.entity.Star;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class StarDTO {
     @Data
     public static class SaveRequest{
-        @NotEmpty
+        @NotBlank(message = "Isbn is a required entry value.")
         private String isbn;
         @NotNull
         private Long memberId;
