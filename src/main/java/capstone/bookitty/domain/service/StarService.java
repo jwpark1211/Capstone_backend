@@ -37,7 +37,6 @@ public class StarService {
                 .score(request.getScore())
                 .isbn(request.getIsbn())
                 .member(member)
-                .createdAt(LocalDateTime.now())
                 .build();
 
         starRepository.save(star);

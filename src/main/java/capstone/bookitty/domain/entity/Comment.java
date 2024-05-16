@@ -28,9 +28,9 @@ public class Comment {
     private String isbn;
     private String content;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime modifiedAt;
 
     @Builder

@@ -34,7 +34,7 @@ public class BookState {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime readAt;
 
     @Builder

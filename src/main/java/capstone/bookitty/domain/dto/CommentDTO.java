@@ -52,9 +52,9 @@ public class CommentDTO {
         private String isbn;
         private String content;
         private int like_count;
-        @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
-        @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime modifiedAt;
 
         public static CommentInfoResponse of(Comment comment, int like_count){

@@ -16,13 +16,6 @@ public class BookittyApplication {
 		SpringApplication.run(BookittyApplication.class, args);
 	}
 
-	//한국 표준 시간 설정
-	@PostConstruct
-	public void started() {
-		// timezone UTC 셋팅
-		TimeZone.setDefault(TimeZone.getTimeZone("KST"));
-	}
-
 	//CORS 에러 해결
 	@Bean
 	public WebMvcConfigurer corsConfigurer(){
