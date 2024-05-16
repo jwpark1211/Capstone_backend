@@ -28,7 +28,7 @@ public class CommentController {
     @Operation(summary = "코멘트 생성")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveComment(
-            @RequestBody @Valid SaveRequest request
+            @RequestBody @Valid CommentSaveRequest request
     ){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<IdResponse>(
@@ -41,7 +41,7 @@ public class CommentController {
             @PathVariable("comment-id") Long commentId
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<InfoResponse>(
+                .body(new ResponseCounter<CommentInfoResponse>(
                         commentService.findCommentByCommentId(commentId)));
     }
 
@@ -52,7 +52,7 @@ public class CommentController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<CommentInfoResponse>>(
                    commentService.findAllComment(pageable)));
     }
 
@@ -64,7 +64,7 @@ public class CommentController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<CommentInfoResponse>>(
                         commentService.findCommentByIsbn(isbn, pageable)));
     }
 
@@ -76,7 +76,7 @@ public class CommentController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<CommentInfoResponse>>(
                         commentService.findCommentByMemberId(memberId, pageable)));
     }
 
@@ -84,7 +84,7 @@ public class CommentController {
     @PatchMapping(path = "/{comment-id}")
     public ResponseEntity<? extends BasicResponse> updateComment(
             @PathVariable("comment-id") Long commentId,
-            @RequestBody @Valid UpdateRequest request
+            @RequestBody @Valid CommentUpdateRequest request
     ){
         commentService.updateComment(commentId, request);
         return ResponseEntity.ok()

@@ -33,7 +33,7 @@ public class MemberController {
     @Operation(summary = "회원가입")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> save(
-            @RequestBody @Valid SaveRequest request){
+            @RequestBody @Valid MemberSaveRequest request){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<IdResponse>(
                        memberService.saveMember(request)));
@@ -52,7 +52,7 @@ public class MemberController {
     @Operation(summary = "로그인")
     @PostMapping(path = "/login")
     public ResponseEntity<? extends BasicResponse> login(
-            @RequestBody @Valid LoginRequest request
+            @RequestBody @Valid MemberLoginRequest request
     ){
         memberService.login(request);
         return ResponseEntity.ok()
@@ -65,7 +65,7 @@ public class MemberController {
             @PathVariable("id") Long memberId
     ){
         return ResponseEntity.ok(
-                new ResponseCounter<InfoResponse>(
+                new ResponseCounter<MemberInfoResponse>(
                         memberService.getMemberInfoWithId(memberId)));
     }
 
@@ -76,7 +76,7 @@ public class MemberController {
             @PageableDefault(sort="id",size = 10) Pageable pageable
     ){
         return ResponseEntity.ok(
-                new ResponseCounter<Page<InfoResponse>>(
+                new ResponseCounter<Page<MemberInfoResponse>>(
                         memberService.getAllMemberInfo(pageable)));
     }
 

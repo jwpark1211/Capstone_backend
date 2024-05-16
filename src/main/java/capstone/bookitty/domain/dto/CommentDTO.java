@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class CommentDTO {
 
     @Data
-    public static class SaveRequest{
+    public static class CommentSaveRequest{
         @NotBlank(message = "Isbn is a required entry value.")
         private String isbn;
         @NotNull(message = "memberId is a required entry value.")
@@ -27,7 +27,7 @@ public class CommentDTO {
     }
 
     @Data
-    public static class UpdateRequest{
+    public static class CommentUpdateRequest{
         @NotEmpty(message = "content is a required entry value.")
         @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters")
         private String content;
@@ -46,7 +46,7 @@ public class CommentDTO {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse{
+    public static class CommentInfoResponse{
         private Long id;
         private Long memberId;
         private String isbn;
@@ -57,8 +57,8 @@ public class CommentDTO {
         @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
         private LocalDateTime modifiedAt;
 
-        public static InfoResponse of(Comment comment, int like_count){
-            return new InfoResponse(comment.getId(), comment.getMember().getId(),comment.getIsbn(),
+        public static CommentInfoResponse of(Comment comment, int like_count){
+            return new CommentInfoResponse(comment.getId(), comment.getMember().getId(),comment.getIsbn(),
                     comment.getContent(), like_count ,comment.getCreatedAt(),
                     comment.getModifiedAt());
         }

@@ -28,7 +28,7 @@ public class StarController {
     @Operation(summary = "평점 생성[평점은 0.5부터 5까지 0.5단위로 증가합니다.")
     @PostMapping(path = "/new")
     public ResponseEntity<? extends BasicResponse> saveStar(
-            @RequestBody @Valid SaveRequest request
+            @RequestBody @Valid StarSaveRequest request
     ){
         return ResponseEntity.ok()
                 .body(new ResponseCounter<IdResponse>(
@@ -41,7 +41,7 @@ public class StarController {
             @PathVariable("star-id") Long starId
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<InfoResponse>(
+                .body(new ResponseCounter<StarInfoResponse>(
                         starService.findStarByStarId(starId)));
     }
 
@@ -53,7 +53,7 @@ public class StarController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<StarInfoResponse>>(
                         starService.findAllStar(pageable)));
     }
 
@@ -65,7 +65,7 @@ public class StarController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<StarInfoResponse>>(
                         starService.findStarByISBN(isbn,pageable)));
     }
 
@@ -77,7 +77,7 @@ public class StarController {
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return ResponseEntity.ok()
-                .body(new ResponseCounter<Page<InfoResponse>>(
+                .body(new ResponseCounter<Page<StarInfoResponse>>(
                         starService.findStarByMemberId(memberId,pageable)));
     }
 
@@ -85,7 +85,7 @@ public class StarController {
     @PatchMapping(path="/{star-id}")
     public ResponseEntity<? extends BasicResponse> updateStar(
             @PathVariable("star-id") Long starId,
-            @RequestBody @Valid UpdateRequest request
+            @RequestBody @Valid StarUpdateRequest request
     ){
         starService.updateStar(starId, request);
         return ResponseEntity.ok()

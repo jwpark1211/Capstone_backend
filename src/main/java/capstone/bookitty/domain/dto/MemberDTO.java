@@ -17,7 +17,7 @@ import java.time.LocalDate;
 
 public class MemberDTO {
     @Data
-    public static class SaveRequest {
+    public static class MemberSaveRequest {
         @NotBlank(message = "Email is a required entry value.")
         @Email(message = "Email format is not valid.")
         private String email;
@@ -26,7 +26,7 @@ public class MemberDTO {
                 message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
         private String password;
         @ValidEnum(enumClass = Gender.class, message = "Invalid gender")
-        private Gender gender;
+        private Gender gender; //FEMALE 혹은 MALE
         @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDate birthdate;
         @NotBlank(message = "name is a required entry value.")
@@ -34,7 +34,7 @@ public class MemberDTO {
     }
 
     @Data
-    public static class LoginRequest {
+    public static class MemberLoginRequest {
         @NotBlank(message = "Email is a required entry value.")
         @Email(message = "Email format is not valid.")
         private String email;
@@ -56,13 +56,13 @@ public class MemberDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class BoolResponse{
-        private boolean isUnique;
+        private boolean unique;
     }
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse{
+    public static class MemberInfoResponse{
         private Long id;
         private String email;
         private String profileImg;
@@ -71,8 +71,8 @@ public class MemberDTO {
         @DateTimeFormat(pattern="yyyy-mm-dd")
         private LocalDate birthDate;
 
-        public static InfoResponse of(Member member){
-            return new InfoResponse(member.getId(), member.getEmail(), member.getProfileImg(),
+        public static MemberInfoResponse of(Member member){
+            return new MemberInfoResponse(member.getId(), member.getEmail(), member.getProfileImg(),
                     member.getName(), member.getGender(), member.getBirthDate());
         }
     }
