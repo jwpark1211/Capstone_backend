@@ -15,6 +15,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker stop $(docker ps -a -q) 
             sudo docker rm $(docker ps -a -q) 
             sudo docker pull ${{ secrets.DOCKER_REPOSITORY }}
