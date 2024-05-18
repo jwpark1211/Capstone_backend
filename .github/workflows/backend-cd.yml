@@ -15,6 +15,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo docker-compose down
+            sudo docker stop $(docker ps -a -q) 
+            sudo docker rm $(docker ps -a -q) 
             sudo docker pull ${{ secrets.DOCKER_REPOSITORY }}
             sudo docker run -d -p 8080:8080 --name new ${{ secrets.DOCKER_REPOSITORY }}
