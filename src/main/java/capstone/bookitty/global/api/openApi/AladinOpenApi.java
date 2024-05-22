@@ -68,7 +68,7 @@ public class AladinOpenApi {
                         .queryParam("QueryType", "Bestseller")
                         .queryParam("SearchTarget","Book")
                         .queryParam("Version",20131101)
-                        //.queryParam("Cover","Big")
+                        .queryParam("Cover","Big")
                         .queryParam("output","js")
                         .build())
                 .retrieve()
