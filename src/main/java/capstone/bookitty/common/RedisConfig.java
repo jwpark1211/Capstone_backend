@@ -25,17 +25,14 @@ import java.time.Duration;
 @EnableCaching
 @EnableRedisRepositories
 public class RedisConfig {
-    @Value("${spring.cache.redis.host}")
+    @Value("${spring.redis.host}")
     private String host;
-
-    @Value("${spring.cache.redis.port}")
+    @Value("${spring.redis.port}")
     private int port;
-
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
     }
-
     @Bean
     public RedisTemplate<String, String> redisTemplate() {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
@@ -44,7 +41,6 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
-
     @Bean("cacheManager")
     public CacheManager cacheManager(){
         RedisCacheManager.RedisCacheManagerBuilder builder =
