@@ -1,6 +1,7 @@
 package capstone.bookitty.jwt;
 
 import capstone.bookitty.common.CustomUserDetailsService;
+import capstone.bookitty.util.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -22,15 +23,23 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
-
+    private final RedisUtil redisUtil;
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public JwtTokenProvider(@Value("${jwt.secretKey}") String secretKey, JwtProperties jwtProperties, CustomUserDetailsService customUserDetailsService) {
+    public JwtTokenProvider(@Value("${jwt.secretKey}") String secretKey, JwtProperties jwtProperties,
+                            CustomUserDetailsService customUserDetailsService,RedisUtil redisUtil) {
         this.jwtProperties = jwtProperties;
         this.customUserDetailsService = customUserDetailsService;
         byte[] keyBytes = secretKey.getBytes();
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.redisUtil = redisUtil;
+    }
+
+    public Long getExpiration(String accessToken) {
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
     }
 
     public JwtToken generateTokenDto(Authentication authentication) {
@@ -82,6 +91,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            if(redisUtil.hasKeyBlackList(token)) {
+                return false;
+            }
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);

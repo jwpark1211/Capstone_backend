@@ -8,6 +8,7 @@ import capstone.bookitty.domain.repository.MemberRepository;
 import capstone.bookitty.domain.repository.RefreshTokenRepository;
 import capstone.bookitty.jwt.JwtToken;
 import capstone.bookitty.jwt.JwtTokenProvider;
+import capstone.bookitty.util.RedisUtil;
 import capstone.bookitty.util.SecurityUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final S3Service s3Service;
+    private final RedisUtil redisUtil;
 
     @Transactional
     public IdResponse saveMember(MemberSaveRequest request) {
@@ -133,6 +135,9 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("User is already logged out or token is invalid."));
 
         refreshTokenRepository.delete(token);
+
+        Long expiration = jwtTokenProvider.getExpiration(tokenRequestDTO.getAccessToken());
+        redisUtil.setBlackList(tokenRequestDTO.getAccessToken(), "access_token", expiration);
     }
 
     @Transactional
