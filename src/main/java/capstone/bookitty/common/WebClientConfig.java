@@ -14,7 +14,7 @@ public class WebClientConfig {
     @Value("${api.aladin.uri}")
     private String aladinUri;
 
-    @Value("${api.naru.uri}")
+   // @Value("${api.naru.uri}")
     private String naruUri;
 
     @Bean @Qualifier("AladinWebClient")

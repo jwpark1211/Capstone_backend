@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class NaruOpenApi {
 
-    @Value("${api.naru.auth}")
+    //@Value("${api.naru.auth}")
     private String auth;
 
     private final WebClient naruWebClientApi;
